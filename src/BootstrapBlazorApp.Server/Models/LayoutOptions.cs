@@ -1,6 +1,6 @@
 ﻿using BootstrapBlazor.Components;
 
-namespace BootstrapBlazorApp.Server.Data
+namespace BootstrapBlazorApp.Server.Models
 {
     public class LayoutOptions
     {

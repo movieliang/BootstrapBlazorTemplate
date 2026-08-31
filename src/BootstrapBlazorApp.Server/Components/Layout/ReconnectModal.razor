@@ -1,0 +1,33 @@
+﻿<script type="module" src="@Assets["Components/Layout/ReconnectModal.razor.js"]"></script>
+
+<dialog id="components-reconnect-modal" data-nosnippet>
+    <div class="components-reconnect-container">
+        <div class="components-rejoining-animation" aria-hidden="true">
+            <div></div>
+            <div></div>
+        </div>
+        <p class="components-reconnect-first-attempt-visible">
+            服务连接已断开...
+        </p>
+        <p class="components-reconnect-repeated-attempt-visible">
+            重新连接中 <span id="components-seconds-to-next-attempt"></span> 秒后重试...
+        </p>
+        <p class="components-reconnect-failed-visible">
+            连接失败！<br />请重试或刷新页面.
+        </p>
+        <button id="components-reconnect-button" class="components-reconnect-failed-visible">
+            重试...
+        </button>
+        <p class="components-pause-visible">
+            会话已被服务器暂停。
+        </p>
+        <button id="components-resume-button" class="components-pause-visible">
+            重新连接
+        </button>
+        <p class="components-resume-failed-visible">
+            恢复会话失败.<br />请重新加载页面.
+        </p>
+    </div>
+</dialog>
+
+<ReconnectorOutlet ReconnectInterval="3000" @rendermode="new InteractiveServerRenderMode(false)" />

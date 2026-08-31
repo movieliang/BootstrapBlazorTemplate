@@ -1,4 +1,5 @@
 ﻿using BootstrapBlazorApp.Server.Components;
+using BootstrapBlazorApp.Server.Services;
 using Microsoft.AspNetCore.SignalR;
 using System.Text;
 
@@ -12,6 +13,13 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddBootstrapBlazor();
 
 builder.Services.AddCascadingAuthenticationState();
+
+// 增加 DashboardDataService 服务
+builder.Services.AddScoped<DashboardService>();
+
+// 增加后台任务服务
+builder.Services.AddTaskServices();
+builder.Services.AddHostedService<ClearTempFilesService>();
 
 // 增加 Pdf 导出服务
 builder.Services.AddBootstrapBlazorTableExportService();
@@ -29,9 +37,10 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
 }
 
+app.UseStatusCodePagesWithReExecute("/NotFound", createScopeForStatusCodePages: false);
 app.UseAntiforgery();
 app.UseBootstrapBlazor();
 app.MapStaticAssets();
-app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
-
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
 app.Run();

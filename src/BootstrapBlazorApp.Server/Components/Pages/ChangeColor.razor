@@ -1,0 +1,40 @@
+﻿@page "/ChangeColor"
+@attribute [TabItemOption(Text = "Change Color", Icon = "fa-solid fa-fw fa-table text-success")]
+
+<PageTitle>ChangeColor</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Color:@HandColor
+<br />
+
+<button Id="changeColorBtn" type="button" class="btn btn-outline-danger">Change Color</button>
+
+<script>
+    // 获取按钮元素
+    var changeColorBtn = document.getElementById('changeColorBtn');
+
+    // 定义一个函数来改变按钮颜色
+    function changeButtonColor() {
+      // 随机生成一个新的颜色值
+      var newColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+      // 修改CSS变量
+      document.documentElement.style.setProperty('--bbt-layout-color-a', newColor);
+    }
+
+    // 为按钮添加点击事件监听器
+    changeColorBtn.addEventListener('click', changeButtonColor);
+</script>
+<br />
+<br />
+<ColorPicker @bind-Value="@HandColor" OnValueChanged="OnColorChanged" />
+
+@code {
+    private string? HandColor { get; set; } = "#4c11aa";
+
+    private async Task OnColorChanged(string color)
+    {
+        HandColor = color;
+        await js.InvokeVoidAsync("setCssProperty", "--bbt-layout-color-a", color);
+    }
+}

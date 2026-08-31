@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -17,11 +17,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BootstrapBlazor" Version="9.8.0" />
-    <PackageReference Include="BootstrapBlazor.FontAwesome" Version="9.0.*" />
-    <PackageReference Include="BootstrapBlazor.Html2Pdf" Version="9.0.*" />
-    <PackageReference Include="BootstrapBlazor.Middleware" Version="9.0.0" />
-    <PackageReference Include="BootstrapBlazor.TableExport" Version="9.2.6" />
+    <PackageReference Include="BootstrapBlazor" Version="10.9.2" />
+    <PackageReference Include="BootstrapBlazor.Chart" Version="10.0.7" />
+    <PackageReference Include="BootstrapBlazor.FontAwesome" Version="10.0.3" />
+    <PackageReference Include="BootstrapBlazor.Html2Pdf" Version="10.0.16" />
+    <PackageReference Include="BootstrapBlazor.Middleware" Version="10.0.0" />
+    <PackageReference Include="BootstrapBlazor.TableExport" Version="10.0.3" />
+    <PackageReference Include="BootstrapBlazor.Tasks.Dashboard" Version="10.0.1" />
   </ItemGroup>
 
 </Project>

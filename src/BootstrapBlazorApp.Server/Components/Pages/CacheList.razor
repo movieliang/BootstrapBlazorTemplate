@@ -1,0 +1,111 @@
+﻿@page "/CacheList"
+@using Microsoft.Extensions.Caching.Memory
+@using System.Collections
+
+<h3>@Localizer["CacheListTitle"]</h3>
+
+<h4>@((MarkupString)Localizer["CacheListIntro"].Value)</h4>
+
+<div class="table-cache-list">
+    <Table Items="_cacheList" IsBordered="true" IsStriped="true" IsFixedHeader="true"
+           ShowToolbar="true" ShowAddButton="false" ShowEditButton="false" ShowDeleteButton="false" ShowRefresh="false">
+        <TableColumns>
+            <TableTemplateColumn Text="@Localizer["CacheListKey"]" TextWrap="true">
+                <Template Context="v">
+                    @GetKey(v.Row)
+                </Template>
+            </TableTemplateColumn>
+            <TableTemplateColumn Text="@Localizer["CacheListValue"]" TextWrap="true" Width="220" CssClass="table-cache-value scroll">
+                <Template Context="v">
+                    @GetValue(v.Row)
+                </Template>
+            </TableTemplateColumn>
+            <TableTemplateColumn Text="@Localizer["CacheListExpiration"]" Width="180">
+                <Template Context="v">
+                    <CacheExpiration Context="v.Row"></CacheExpiration>
+                </Template>
+            </TableTemplateColumn>
+            <TableTemplateColumn Text="@Localizer["CacheListAction"]" Width="80">
+                <Template Context="v">
+                    <Button Size="Size.ExtraSmall" Color="Color.Danger" OnClick="() => OnDelete(v.Row)" Icon="fa-solid fa-xmark" Text="@Localizer["CacheListDelete"]"></Button>
+                </Template>
+            </TableTemplateColumn>
+        </TableColumns>
+        <TableToolbarBeforeTemplate>
+            <Button Text="@Localizer["CacheListDeleteAll"]" Icon="fa-solid fa-xmark" OnClick="OnDeleteAll"></Button>
+        </TableToolbarBeforeTemplate>
+        <TableExtensionToolbarTemplate>
+            <Button Text="@Localizer["CacheListRefresh"]" Icon="fa-solid fa-refresh" OnClick="OnRefresh"></Button>
+        </TableExtensionToolbarTemplate>
+    </Table>
+</div>
+<div class="mt-2">
+    @Localizer["CacheListCount", CacheManager.Count]
+</div>
+
+@code{
+    [Inject, NotNull]
+    private ICacheManager? CacheManager { get; set; }
+
+    [Inject, NotNull]
+    private IStringLocalizer<CacheList>? Localizer { get; set; }
+
+    private List<object?> _cacheList = [];
+
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UpdateCacheList();
+    }
+
+    private void OnDelete(object key)
+    {
+        if (key is ICacheEntry entry)
+        {
+            CacheManager.Clear(entry.Key);
+            UpdateCacheList();
+        }
+    }
+
+    private void OnDeleteAll()
+    {
+        CacheManager.Clear();
+        UpdateCacheList();
+    }
+
+    private void OnRefresh()
+    {
+        UpdateCacheList();
+    }
+
+    private void UpdateCacheList()
+    {
+        _cacheList = [.. CacheManager.Keys.OrderBy(i => i.ToString()).Select(key =>
+        {
+            ICacheEntry? entry = null;
+            if (CacheManager.TryGetCacheEntry(key, out var val))
+            {
+                entry = val;
+            }
+            return entry;
+        }).Where(i => i != null)];
+    }
+
+    private static string GetKey(object data) => data is ICacheEntry entry ? entry.Key.ToString()! : "-";
+
+    private static string GetValue(object data) => data is ICacheEntry entry ? GetCacheEntryValue(entry) : "-";
+
+    private static string GetCacheEntryValue(ICacheEntry entry)
+    {
+        var value = entry.Value;
+        if (value is string stringValue)
+        {
+            return stringValue;
+        }
+
+        return value is IEnumerable ? $"{LambdaExtensions.ElementCount(value)}" : value?.ToString() ?? "-";
+    }
+}

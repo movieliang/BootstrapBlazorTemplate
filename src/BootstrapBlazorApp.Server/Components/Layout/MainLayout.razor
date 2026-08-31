@@ -50,7 +50,23 @@
         </Main>
         <Footer>
             <div class="text-center flex-fill">
-                <a class="page-layout-demo-footer-link" href="https://www.blazor.zone" target="_blank">Bootstrap Blazor</a>
+                <FooterCounter></FooterCounter>
+                <a class="page-layout-demo-footer-link" href="https://www.blazor.zone" target="_blank">
+                    Bootstrap Blazor On .Net @Environment.Version.ToString()
+                    @if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows))
+                    {
+                        <span> - Windows</span>
+                    }
+                    else if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Linux))
+                    {
+                        <span> - Linux</span>
+                    }
+                    else if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX))
+                    {
+                        <span> - MacOS</span>
+                    }
+                </a>
+                <NetworkMonitorIndicator></NetworkMonitorIndicator>
             </div>
         </Footer>
         <NotFound>
@@ -280,10 +296,10 @@
     </Drawer>
 </BootstrapBlazorRoot>
 
-<div id="blazor-error-ui">
+<div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
 </div>
 
 @code {
@@ -341,12 +357,13 @@
         var menus = new List<MenuItem>
         {
             new() { Text = "GitHub", Icon = "fa-brands fa-github", Url = "https://github.com/movieliang/BootstrapBlazorTemplate", Target="_blank"},
-            new() { Text = "Index", Icon = "fa-solid fa-fw fa-home text-success", Url = "/" , Match = NavLinkMatch.All},
+            new() { Text = "Home", Icon = "fa-solid fa-fw fa-home text-success", Url = "/home" , Match = NavLinkMatch.All},
             new() { Text = "Counter", Icon = "fa-solid fa-fw fa-check-square text-warning", Url = "/counter" },
             new() { Text = "Example", Icon = "fa-solid fa-fw fa-database text-primary",
                 Items = [
                     new() { Text = "Weather", Icon = "fa-solid fa-fw fa-pen-to-square text-danger", Url = "/weather" },
                     new() { Text = "Table", Icon = "fa-solid fa-fw fa-table text-info", Url = "/table" },
+                    new() { Text = "ChangeColor", Icon = "fa-solid fa-fw fa-table text-warning", Url = "/ChangeColor" },
                     new() { Text = "花名册", Icon = "fa-solid fa-fw fa-users text-success", Url = "/users" }
                 ]
             },
@@ -355,6 +372,8 @@
                     new() { Text = "Login", Icon = "fas fa-user-group text-info", Url = "/Login" },
                     new() { Text = "Logout", Icon = "fa-solid fa-list-ul text-primary", Url = "/Logout" },
                     new() { Text = "Online", Icon = "fas fa-user-group text-success", Url = "/Online" },
+                    new() { Text = "Tasks", Icon = "fa-solid fa-list-ul text-primary", Url = "/tasks" },
+                    new() { Text = "CacheList", Icon = "fa-solid fa-list-ul text-success", Url = "/CacheList" },
                     new() { Text = "Error", Icon = "fa-solid fa-list-ul text-danger", Url = "/Error" },
                     new() { Text = "NotFound", Icon = "fa-solid fa-ban text-warning", Url = "/NotFound?Message=Not Found!" }
                 ]
