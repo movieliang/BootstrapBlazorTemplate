@@ -20,9 +20,9 @@
     <PackageReference Include="BootstrapBlazor" Version="11.1.0" />
     <PackageReference Include="BootstrapBlazor.Chart" Version="11.0.0" />
     <PackageReference Include="BootstrapBlazor.FontAwesome" Version="11.0.0" />
-    <PackageReference Include="BootstrapBlazor.Html2Pdf" Version="11.0.0" />
+    <PackageReference Include="BootstrapBlazor.Html2Pdf" Version="11.0.1" />
     <PackageReference Include="BootstrapBlazor.Middleware" Version="11.0.0" />
-    <PackageReference Include="BootstrapBlazor.TableExport" Version="11.0.0" />
+    <PackageReference Include="BootstrapBlazor.TableExport" Version="11.0.1" />
     <PackageReference Include="BootstrapBlazor.Tasks.Dashboard" Version="11.0.0" />
   </ItemGroup>
 
